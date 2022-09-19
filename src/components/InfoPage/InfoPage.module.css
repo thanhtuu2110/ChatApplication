@@ -1,0 +1,12 @@
+.infoPageContainer {
+  overflow: auto;
+  padding: 28px 0;
+}
+.pagination {
+  padding: 28px;
+  display: flex;
+  justify-content: flex-end;
+}
+.displayContent {
+  height: 78vh;
+}

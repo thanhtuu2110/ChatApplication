@@ -1,0 +1,8 @@
+.inputMessageContainer {
+  margin: 14px 0;
+  display: flex;
+}
+.textArea {
+  flex: 1;
+  margin-right: 10px;
+}

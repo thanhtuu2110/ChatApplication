@@ -1,0 +1,9 @@
+.chattingRoomContainer {
+  padding: 0 1rem;
+  height: 78vh;
+  overflow: auto;
+}
+.upOutLinedIcon {
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,32 @@
+.introductionBarContainer {
+  padding: 0.75rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #c4c4c4;
+}
+.chatRoomName {
+  margin: 0;
+  color: #000000;
+  align-items: center;
+}
+.chatRoomName:hover {
+  color: #f0ebe3;
+}
+
+.actionButton {
+  background-color: #c4c4c4;
+  padding: 7px 10px;
+  border: 1px solid #c4c4c4;
+  border-radius: 25px;
+}
+.actionButton:hover {
+  background-color: lavender;
+}
+
+.infoButton {
+  color: #000000;
+}
+.infoButton:hover {
+  color: #f0ebe3;
+}
