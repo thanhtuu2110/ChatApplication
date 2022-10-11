@@ -5,17 +5,17 @@ import styles from "./NavBar.module.css";
 export const NavBar = (): ReactElement => {
   return (
     <div className={styles.introductionBarContainer}>
-      {/* Comment... */}
-      <div></div>
+      {/* This is a fake div for making chat room name center */}
+      <div />
 
-      <Link to="/">
-        <h3 className={styles.chatRoomName}>Python chat room</h3>
+      <Link className={styles.chatRoomName} to="/">
+        <h3>Python chat room</h3>
       </Link>
 
-      <nav>
-        <ul className="list-of-navigation">
+      <nav className={styles.navbarContainer}>
+        <ul>
           <li>
-            <NavLink className={styles.infoButton} to="/info">
+            <NavLink className={styles.actionButton} to="/info">
               Info
             </NavLink>
           </li>
