@@ -1,5 +1,5 @@
 import React, { ReactElement, useState } from "react";
-import { Input, Button, Form } from "antd";
+import { Input, Button } from "antd";
 import styles from "./MessageInput.module.css";
 
 const { TextArea } = Input;
@@ -25,7 +25,7 @@ export const MessageInput = (props: MessageInputProps): ReactElement => {
   };
 
   return (
-    <div className={styles.inputMessageContainer}>
+    <div data-testid="message-input" className={styles.inputMessageContainer}>
       <TextArea
         value={enteredMessage}
         onChange={(event) => setEnteredMessage(event.target.value)}
@@ -35,7 +35,11 @@ export const MessageInput = (props: MessageInputProps): ReactElement => {
         allowClear={true}
       />
 
-      <Button onClick={onSendMessage} disabled={!enteredMessage}>
+      <Button
+        data-testid="send-message-button"
+        onClick={onSendMessage}
+        disabled={!enteredMessage}
+      >
         Send
       </Button>
     </div>

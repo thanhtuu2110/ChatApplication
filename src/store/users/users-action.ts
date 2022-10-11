@@ -3,7 +3,7 @@ import {
   RegisterUserResponse,
   User,
 } from "../../types/User.interface";
-import { userActions } from "./user-slice";
+import { userActions } from "./users-slice";
 
 export const fetchUsers = (skipTime = 0): any => {
   return async (dispatch: any): Promise<void> => {

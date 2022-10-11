@@ -5,7 +5,7 @@ import styles from "./Homepage.module.css";
 import { User } from "../../types/User.interface";
 import { useDispatch } from "react-redux";
 import { w3cwebsocket as W3CWebSocket } from "websocket";
-import { fetchMessages } from "../../store/message/message-action";
+import { fetchMessages } from "../../store/messages/messages-action";
 
 type HomePageProps = {
   currentUser: User | undefined;
@@ -14,6 +14,7 @@ type HomePageProps = {
 export const HomePage = (props: HomePageProps): ReactElement => {
   const dispatch = useDispatch();
   const { currentUser } = props;
+
   const webSocket = useRef<W3CWebSocket>();
 
   const sendTextMessage = (input: string): void => {
@@ -22,9 +23,11 @@ export const HomePage = (props: HomePageProps): ReactElement => {
 
   useEffect(() => {
     if (!currentUser) return;
+
     webSocket.current = new W3CWebSocket(
       `ws://localhost:8000/chat/${currentUser.id}`
     );
+
     webSocket.current.onopen = () => {
       console.log("WebSocket Client Connected");
     };

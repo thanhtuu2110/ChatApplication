@@ -1,26 +1,48 @@
 import { Modal, Input, Button, Form, InputRef } from "antd";
 import styles from "./RegisterUserModal.module.css";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchMessages } from "../../../store/messages/messages-action";
+import { fetchUsers, registerUser } from "../../../store/users/users-action";
+import { User } from "../../../types/User.interface";
 
 type RegisterUserModalProps = {
-  enteredName: string;
-  isVisible: boolean;
-  fetchingData: boolean;
-  onSave: () => void;
-  onChangeInput: (value: string) => void;
+  setCurrentUser: (user: User) => void;
 };
 
 export const RegisterUserModal = (props: RegisterUserModalProps) => {
+  const { setCurrentUser } = props;
+  const [inputUserName, setInputUserName] = useState<string>("");
+  const dispatch = useDispatch();
+  const [isVisible, setIsVisible] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const inputRef = useRef<InputRef>(null);
-  const { fetchingData, enteredName, isVisible, onSave, onChangeInput } = props;
 
   useEffect(() => {
-    inputRef.current!.focus({ cursor: "start" });
+    inputRef.current?.focus({ cursor: "start" });
   }, []);
 
+  const handleSubmitModal = async (): Promise<void> => {
+    setIsLoading(true);
+    const registeredUser = await dispatch(
+      registerUser({ id: "", name: inputUserName })
+    );
+
+    setCurrentUser(registeredUser);
+    await Promise.all([dispatch(fetchMessages()), dispatch(fetchUsers())]);
+    setIsLoading(false);
+    setIsVisible(false);
+  };
+
   return (
-    <Modal open={isVisible} footer={null} closable={false}>
-      <Form onFinish={onSave} layout="vertical">
+    <Modal
+      data-testid="register-modal"
+      open={isVisible}
+      footer={null}
+      closable={false}
+    >
+      <Form onFinish={handleSubmitModal} layout="vertical">
         <Form.Item
           label="User name"
           name="username"
@@ -29,13 +51,13 @@ export const RegisterUserModal = (props: RegisterUserModalProps) => {
           <Input
             ref={inputRef}
             placeholder="Input your name"
-            onChange={(e) => onChangeInput(e.target.value)}
+            onChange={(e) => setInputUserName(e.target.value)}
           />
         </Form.Item>
         <Form.Item className={styles.buttons}>
           <Button
-            loading={fetchingData}
-            disabled={!enteredName}
+            loading={isLoading}
+            disabled={!inputUserName}
             htmlType="submit"
           >
             Save

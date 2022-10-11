@@ -5,12 +5,12 @@ import "./BubbleMessage.css";
 import { UserType } from "../ChattingRoom";
 
 type BubbleMessageProps = {
-  fromWhom: string;
+  userType: string;
   message: Message;
 };
 
 export const BubbleMessage = (props: BubbleMessageProps): ReactElement => {
-  const { fromWhom } = props;
+  const { userType } = props;
   const { user, content, id, created_at } = props.message;
 
   const renderText = (fromWhom: string): ReactElement => {
@@ -25,10 +25,12 @@ export const BubbleMessage = (props: BubbleMessageProps): ReactElement => {
   };
 
   const time = new Date(created_at);
+
   return (
     <div
+      data-testid="bubble-message"
       className={`${
-        fromWhom === UserType.FROM_THEM
+        userType === UserType.FROM_THEM
           ? "bubble-message-container"
           : "bubble-message-reverse-container"
       } `}
@@ -42,10 +44,10 @@ export const BubbleMessage = (props: BubbleMessageProps): ReactElement => {
         </Avatar>
       </div>
       <div className="imessage">
-        {renderText(fromWhom)}
+        {renderText(userType)}
         <p
           className={`${
-            fromWhom === UserType.FROM_THEM
+            userType === UserType.FROM_THEM
               ? "date-time"
               : "date-time-right-align"
           } `}

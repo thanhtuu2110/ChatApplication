@@ -1,4 +1,4 @@
-import { messageActions } from "./message-slice";
+import { messageActions } from "./messages-slice";
 import { MessageResponse } from "../../types/ChatMessage.interface";
 
 export const fetchMessages = (): any => {

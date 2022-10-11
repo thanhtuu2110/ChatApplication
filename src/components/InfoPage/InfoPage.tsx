@@ -4,7 +4,7 @@ import { UserDisplay } from "./UserDisplay/UserDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import { User } from "../../types/User.interface";
 import { Pagination } from "antd";
-import { fetchUsers } from "../../store/user/user-action";
+import { fetchUsers } from "../../store/users/users-action";
 
 export const InfoPage = (): ReactElement => {
   const dispatch = useDispatch();

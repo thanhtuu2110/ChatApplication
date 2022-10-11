@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialUserStore = {
+const initialUsersStore = {
   items: [],
   total: 0,
 };
 
-export const userSlice = createSlice({
+export const usersSlice = createSlice({
   name: "user",
-  initialState: initialUserStore,
+  initialState: initialUsersStore,
   reducers: {
     replaceUserStore(state, action) {
       state.items = action.payload.items;
@@ -16,4 +16,4 @@ export const userSlice = createSlice({
   },
 });
 
-export const userActions = userSlice.actions;
+export const userActions = usersSlice.actions;

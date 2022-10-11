@@ -10,7 +10,7 @@ type UserDisplay = {
 export const UserDisplay = (props: UserDisplay): ReactElement => {
   const { user } = props;
   return (
-    <div className={styles.userContainer}>
+    <div data-testid="user-info" className={styles.userContainer}>
       <div className={styles.avatarContainer}>
         <Avatar
           size={60}
