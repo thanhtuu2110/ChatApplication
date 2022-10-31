@@ -59,16 +59,11 @@ export const ChattingRoom = (props: ChattingRoomProps): ReactElement => {
     ) {
       return;
     }
+    isFirstRenderRef.current = false;
 
     chattingRoomRef.current!.scrollTop = chattingRoomRef.current!.scrollHeight;
     oldChattingRoomScrollHeight.current = chattingRoomRef.current!.scrollHeight;
   }, [messages]);
-
-  useEffect(() => {
-    if (isFirstRenderRef.current) {
-      isFirstRenderRef.current = false;
-    }
-  }, []);
 
   return (
     <div
