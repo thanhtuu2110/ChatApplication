@@ -14,6 +14,7 @@
   padding: 0.5rem 0.875rem;
   position: relative;
   word-wrap: break-word;
+  max-width: 500px;
 }
 
 .imessage p::before,
@@ -25,8 +26,9 @@
 }
 
 p.from-me {
-  white-space: pre;
+  white-space: pre-wrap;
   align-self: flex-start;
+  justify-content: flex-end;
   background-color: #248bf5;
   color: #fff;
 }
@@ -64,7 +66,7 @@ p.from-me ~ p.from-me:last-child {
 }
 
 p.from-them {
-  white-space: pre;
+  white-space: pre-wrap;
   align-items: flex-start;
   background-color: #e5e5ea;
   color: #000;
@@ -108,4 +110,8 @@ p.from-them::after {
   font-size: 14px;
   min-width: 300px;
   text-align: right;
+}
+
+.test-width {
+  max-width: 500px;
 }

@@ -5,7 +5,7 @@ import styles from "./NavBar.module.css";
 export const NavBar = (): ReactElement => {
   return (
     <div className={styles.introductionBarContainer}>
-      {/* This is a fake div for making chat room name center */}
+      {/* This is a div for making chat room name center */}
       <div />
 
       <Link className={styles.chatRoomName} to="/">
@@ -13,13 +13,9 @@ export const NavBar = (): ReactElement => {
       </Link>
 
       <nav className={styles.navbarContainer}>
-        <ul>
-          <li>
-            <NavLink className={styles.actionButton} to="/info">
-              Info
-            </NavLink>
-          </li>
-        </ul>
+        <NavLink className={styles.actionButton} to="/info">
+          Info
+        </NavLink>
       </nav>
     </div>
   );

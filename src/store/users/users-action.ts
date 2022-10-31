@@ -4,6 +4,7 @@ import {
   User,
 } from "../../types/User.interface";
 import { userActions } from "./users-slice";
+import { notification } from "antd";
 
 export const fetchUsers = (skipTime = 0): any => {
   return async (dispatch: any): Promise<void> => {
@@ -27,6 +28,10 @@ export const fetchUsers = (skipTime = 0): any => {
       );
     } catch (error) {
       console.error(error);
+      notification.error({
+        message: "Web socket connection has any errors",
+        description: "Please refresh the website!!",
+      });
     }
   };
 };
@@ -53,6 +58,10 @@ export const registerUser = (newUser: User): any => {
       return registeredUser;
     } catch (error) {
       console.error(error);
+      notification.error({
+        message: "Web socket connection has any errors",
+        description: "Please refresh the website!!",
+      });
     }
   };
 };

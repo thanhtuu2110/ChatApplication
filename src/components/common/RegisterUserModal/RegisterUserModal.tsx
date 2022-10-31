@@ -1,10 +1,10 @@
-import { Modal, Input, Button, Form, InputRef } from "antd";
-import styles from "./RegisterUserModal.module.css";
+import { Button, Form, Input, InputRef, Modal } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchMessages } from "../../../store/messages/messages-action";
 import { fetchUsers, registerUser } from "../../../store/users/users-action";
 import { User } from "../../../types/User.interface";
+import styles from "./RegisterUserModal.module.css";
 
 type RegisterUserModalProps = {
   setCurrentUser: (user: User) => void;
@@ -12,8 +12,8 @@ type RegisterUserModalProps = {
 
 export const RegisterUserModal = (props: RegisterUserModalProps) => {
   const { setCurrentUser } = props;
-  const [inputUserName, setInputUserName] = useState<string>("");
   const dispatch = useDispatch();
+
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -23,14 +23,16 @@ export const RegisterUserModal = (props: RegisterUserModalProps) => {
     inputRef.current?.focus({ cursor: "start" });
   }, []);
 
-  const handleSubmitModal = async (): Promise<void> => {
+  const handleSubmitModal = async (values: any): Promise<void> => {
     setIsLoading(true);
     const registeredUser = await dispatch(
-      registerUser({ id: "", name: inputUserName })
+      registerUser({ id: "", name: values.username })
     );
 
     setCurrentUser(registeredUser);
+
     await Promise.all([dispatch(fetchMessages()), dispatch(fetchUsers())]);
+
     setIsLoading(false);
     setIsVisible(false);
   };
@@ -46,20 +48,26 @@ export const RegisterUserModal = (props: RegisterUserModalProps) => {
         <Form.Item
           label="User name"
           name="username"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[
+            { required: true, message: "Please input your username!" },
+            () => ({
+              validator(_, value = "") {
+                if (value.length <= 100 && value.length >= 0) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(
+                  new Error(
+                    "Please input your username that not over 100 letters!"
+                  )
+                );
+              },
+            }),
+          ]}
         >
-          <Input
-            ref={inputRef}
-            placeholder="Input your name"
-            onChange={(e) => setInputUserName(e.target.value)}
-          />
+          <Input ref={inputRef} placeholder="Input your name" />
         </Form.Item>
         <Form.Item className={styles.buttons}>
-          <Button
-            loading={isLoading}
-            disabled={!inputUserName}
-            htmlType="submit"
-          >
+          <Button loading={isLoading} htmlType="submit">
             Save
           </Button>
         </Form.Item>

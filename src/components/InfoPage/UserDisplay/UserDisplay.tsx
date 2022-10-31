@@ -16,7 +16,7 @@ export const UserDisplay = (props: UserDisplay): ReactElement => {
           size={60}
           style={{ color: "#000000", backgroundColor: "#c4c4c4" }}
         >
-          {user.name}
+          {user.name.slice(0, 2).toUpperCase()}
         </Avatar>
       </div>
       <div className={styles.lineBreak} />

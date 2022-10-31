@@ -1,5 +1,6 @@
 import { messageActions } from "./messages-slice";
 import { MessageResponse } from "../../types/ChatMessage.interface";
+import { notification } from "antd";
 
 export const fetchMessages = (): any => {
   return async (dispatch: any) => {
@@ -25,6 +26,10 @@ export const fetchMessages = (): any => {
       );
     } catch (error) {
       console.error(error);
+      notification.error({
+        message: "Web socket connection has any errors",
+        description: "Please refresh the website!!",
+      });
     }
   };
 };
@@ -48,6 +53,10 @@ export const fetchMoreMessages = (skipTime: number): any => {
       dispatch(messageActions.addPreviousMessages(messageData.items || []));
     } catch (error) {
       console.error(error);
+      notification.error({
+        message: "Web socket connection has any errors",
+        description: "Please refresh the website!!",
+      });
     }
   };
 };

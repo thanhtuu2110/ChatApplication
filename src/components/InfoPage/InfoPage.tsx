@@ -9,9 +9,11 @@ import { fetchUsers } from "../../store/users/users-action";
 export const InfoPage = (): ReactElement => {
   const dispatch = useDispatch();
   const { items: users, total } = useSelector((state: any) => state.users);
-  const onHandleNextPagination = (page: number, pageSize: number) => {
+
+  const handlePageChange = (page: number, pageSize: number) => {
     dispatch(fetchUsers(page - 1));
   };
+
   return (
     <>
       <div className={styles.infoPageContainer}>
@@ -27,7 +29,7 @@ export const InfoPage = (): ReactElement => {
             defaultCurrent={1}
             total={total}
             pageSize={10}
-            onChange={onHandleNextPagination}
+            onChange={handlePageChange}
           />
         )}
       </div>

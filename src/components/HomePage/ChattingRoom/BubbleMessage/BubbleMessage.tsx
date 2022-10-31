@@ -1,38 +1,35 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 import { Avatar } from "antd";
 import { Message } from "../../../../types/ChatMessage.interface";
 import "./BubbleMessage.css";
-import { UserType } from "../ChattingRoom";
 
 type BubbleMessageProps = {
-  userType: string;
+  isMessageFromCurrentUser: boolean;
   message: Message;
 };
 
 export const BubbleMessage = (props: BubbleMessageProps): ReactElement => {
-  const { userType } = props;
+  const { isMessageFromCurrentUser } = props;
   const { user, content, id, created_at } = props.message;
-
-  const renderText = (fromWhom: string): ReactElement => {
-    if (fromWhom === UserType.FROM_ME) {
+  const renderText = (): ReactElement => {
+    if (isMessageFromCurrentUser) {
       return (
         <div className="text-container">
-          <p className={fromWhom}>{content}</p>
+          <p className="from-me">{content}</p>
         </div>
       );
     }
-    return <p className={fromWhom}>{content}</p>;
+    return <p className="from-them">{content}</p>;
   };
-
   const time = new Date(created_at);
 
   return (
     <div
       data-testid="bubble-message"
       className={`${
-        userType === UserType.FROM_THEM
-          ? "bubble-message-container"
-          : "bubble-message-reverse-container"
+        isMessageFromCurrentUser
+          ? "bubble-message-reverse-container"
+          : "bubble-message-container"
       } `}
     >
       <div className="avatar">
@@ -40,17 +37,16 @@ export const BubbleMessage = (props: BubbleMessageProps): ReactElement => {
           size="large"
           style={{ color: "#000000", backgroundColor: "#c4c4c4" }}
         >
-          {user.name}
+          {user.name.slice(0, 2).toUpperCase()}
         </Avatar>
       </div>
       <div className="imessage">
-        {renderText(userType)}
+        {renderText()}
+
         <p
-          className={`${
-            userType === UserType.FROM_THEM
-              ? "date-time"
-              : "date-time-right-align"
-          } `}
+          className={
+            isMessageFromCurrentUser ? "date-time-right-align" : "date-time"
+          }
         >
           {time.toLocaleString()}
         </p>

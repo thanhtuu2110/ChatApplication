@@ -1,25 +1,31 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState, useMemo } from "react";
 import { Input, Button } from "antd";
 import styles from "./MessageInput.module.css";
 
 const { TextArea } = Input;
 
 type MessageInputProps = {
-  sendANewMessage: (input: string) => void;
+  onSend: (input: string) => void;
 };
 
 export const MessageInput = (props: MessageInputProps): ReactElement => {
-  const { sendANewMessage } = props;
-  const [enteredMessage, setEnteredMessage] = useState<string>("");
+  const { onSend } = props;
+  const [message, setMessage] = useState<string>("");
 
   const onSendMessage = () => {
-    sendANewMessage(enteredMessage);
-    setEnteredMessage("");
+    onSend(message);
+    setMessage("");
   };
 
+  const isValidMessage = message.replaceAll(/\s/g, "").length > 0;
+
   const onPressEnter = (event: any) => {
-    if (event.nativeEvent.keyCode === 13 && !event.nativeEvent.shiftKey) {
-      event.preventDefault();
+    event.preventDefault();
+    if (
+      event.nativeEvent.keyCode === 13 &&
+      !event.nativeEvent.shiftKey &&
+      isValidMessage
+    ) {
       onSendMessage();
     }
   };
@@ -27,18 +33,19 @@ export const MessageInput = (props: MessageInputProps): ReactElement => {
   return (
     <div data-testid="message-input" className={styles.inputMessageContainer}>
       <TextArea
-        value={enteredMessage}
-        onChange={(event) => setEnteredMessage(event.target.value)}
+        value={message}
+        onChange={(event) => setMessage(event.target.value)}
         placeholder="Compose new message here..."
         autoSize
+        maxLength={256}
         onPressEnter={onPressEnter}
-        allowClear={true}
+        className={`${styles}.ant-input-textarea`}
       />
 
       <Button
         data-testid="send-message-button"
         onClick={onSendMessage}
-        disabled={!enteredMessage}
+        disabled={!isValidMessage}
       >
         Send
       </Button>

@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { NavBar, InfoPage } from "./components";
 import "antd/dist/antd.css";
-import { Switch, Route, Redirect } from "react-router-dom";
-import { HomePage } from "./components/HomePage/Homepage";
-
+import { useState } from "react";
+import { Redirect, Route, Switch } from "react-router-dom";
+import { InfoPage, NavBar } from "./components";
 import { RegisterUserModal } from "./components/common/RegisterUserModal/RegisterUserModal";
+import { HomePage } from "./components/HomePage/Homepage";
 import { User } from "./types/User.interface";
 
 function App() {
@@ -23,6 +22,9 @@ function App() {
         </Route>
         <Route path="/info">
           <InfoPage />
+        </Route>
+        <Route path="*">
+          <p>Page not found</p>
         </Route>
       </Switch>
     </>

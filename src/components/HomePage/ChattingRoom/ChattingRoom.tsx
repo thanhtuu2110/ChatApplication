@@ -13,14 +13,8 @@ type ChattingRoomProps = {
 
 const DEFAULT_NUMBER_OF_SKIP_MESSAGES = 10;
 
-export enum UserType {
-  FROM_ME = "from-me",
-  FROM_THEM = "from-them",
-}
-
 export const ChattingRoom = (props: ChattingRoomProps): ReactElement => {
   const { currentUser } = props;
-
   const dispatch = useDispatch();
   const { items: messages, total: totalMessages } = useSelector(
     (state: any) => state.messages
@@ -28,13 +22,10 @@ export const ChattingRoom = (props: ChattingRoomProps): ReactElement => {
 
   const numberTimeOfSkippedMessage = useRef<number>(1);
   const chattingRoomRef = useRef<HTMLDivElement>(null);
-  const oldScrollHeight = useRef<number>(0);
+  const oldChattingRoomScrollHeight = useRef<number>(0);
 
-  const [
-    hasNumberOfSkippedTimeGreaterThanTotalMessages,
-    setHasNumberOfSkippedTimeGreaterThanTotalMessages,
-  ] = useState<boolean>(false);
-  const initialStateRef = useRef<boolean>(true);
+  const [hasMoreMessages, setHasMoreMessages] = useState<boolean>(false);
+  const isFirstRenderRef = useRef<boolean>(true);
 
   const onLoadMoreMessages = async (): Promise<void> => {
     await dispatch(
@@ -42,9 +33,12 @@ export const ChattingRoom = (props: ChattingRoomProps): ReactElement => {
         numberTimeOfSkippedMessage.current * DEFAULT_NUMBER_OF_SKIP_MESSAGES
       )
     );
+
     chattingRoomRef.current!.scrollTop =
-      chattingRoomRef.current!.scrollHeight - oldScrollHeight.current - 100;
-    oldScrollHeight.current = chattingRoomRef.current!.scrollHeight;
+      chattingRoomRef.current!.scrollHeight -
+      oldChattingRoomScrollHeight.current -
+      100;
+    oldChattingRoomScrollHeight.current = chattingRoomRef.current!.scrollHeight;
 
     numberTimeOfSkippedMessage.current++;
     if (
@@ -52,23 +46,29 @@ export const ChattingRoom = (props: ChattingRoomProps): ReactElement => {
         totalMessages >
       1
     ) {
-      setHasNumberOfSkippedTimeGreaterThanTotalMessages(true);
+      setHasMoreMessages(true);
     }
   };
 
-  //Scroll to bottom of the chat room for getting latest message
+  // Scroll to bottom of the chat room for getting latest message whenever get a new message and 1st render
   useEffect(() => {
     if (
       numberTimeOfSkippedMessage.current > 1 ||
       messages.length === 0 ||
-      !initialStateRef.current
-    )
+      !isFirstRenderRef.current
+    ) {
       return;
+    }
 
     chattingRoomRef.current!.scrollTop = chattingRoomRef.current!.scrollHeight;
-    oldScrollHeight.current = chattingRoomRef.current!.scrollHeight;
-    initialStateRef.current = false;
+    oldChattingRoomScrollHeight.current = chattingRoomRef.current!.scrollHeight;
   }, [messages]);
+
+  useEffect(() => {
+    if (isFirstRenderRef.current) {
+      isFirstRenderRef.current = false;
+    }
+  }, []);
 
   return (
     <div
@@ -76,24 +76,19 @@ export const ChattingRoom = (props: ChattingRoomProps): ReactElement => {
       id="chatting-room"
       className={styles.chattingRoomContainer}
     >
-      {hasNumberOfSkippedTimeGreaterThanTotalMessages ? (
-        <p className={styles.upOutLinedIcon}>Het tin nhan</p>
-      ) : (
-        <UpOutlined
-          disabled={hasNumberOfSkippedTimeGreaterThanTotalMessages}
-          onClick={onLoadMoreMessages}
-          className={styles.upOutLinedIcon}
-        />
-      )}
+      <div className={styles.upOutLinedIcon}>
+        {hasMoreMessages ? (
+          <p>Het tin nhan</p>
+        ) : (
+          <UpOutlined disabled={hasMoreMessages} onClick={onLoadMoreMessages} />
+        )}
+      </div>
 
       {[...messages].reverse().map((message: Message) => {
-        const userType =
-          message.user.id === currentUser!.id
-            ? UserType.FROM_ME
-            : UserType.FROM_THEM;
+        const isMessageFromCurrentUser = message.user.id === currentUser!.id;
         return (
           <BubbleMessage
-            userType={userType}
+            isMessageFromCurrentUser={isMessageFromCurrentUser}
             key={message.id}
             message={message}
           />
