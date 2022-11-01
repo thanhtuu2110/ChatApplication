@@ -20,7 +20,7 @@ export const fetchMessages = (): any => {
       const messageData = await fetchMessagesData();
       dispatch(
         messageActions.replaceMessages({
-          items: messageData.items || [],
+          items: messageData.items.reverse() || [],
           total: messageData.total,
         })
       );
@@ -50,7 +50,9 @@ export const fetchMoreMessages = (skipTime: number): any => {
     };
     try {
       const messageData = await fetchMessagesData();
-      dispatch(messageActions.addPreviousMessages(messageData.items || []));
+      dispatch(
+        messageActions.addPreviousMessages(messageData.items.reverse() || [])
+      );
     } catch (error) {
       console.error(error);
       notification.error({

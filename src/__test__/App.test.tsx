@@ -2,8 +2,8 @@ import { describe, expect, test, vi } from "vitest";
 import { screen, fireEvent } from "@testing-library/react";
 import { render } from "../setupTest";
 import { NavBar } from "../components/common/NavBar/NavBar";
-import { MessageInput } from "../components/HomePage/MessageInput/MessageInput";
-import { ChattingRoom } from "../components/HomePage/ChattingRoom/ChattingRoom";
+import { MessageInput } from "../components/ChattingPage/MessageInput/MessageInput";
+import { ChattingRoom } from "../components/ChattingPage/ChattingRoom/ChattingRoom";
 import { InfoPage } from "../components/InfoPage/InfoPage";
 import { RegisterUserModal } from "../components/common/RegisterUserModal/RegisterUserModal";
 

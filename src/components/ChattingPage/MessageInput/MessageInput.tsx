@@ -8,6 +8,8 @@ type MessageInputProps = {
   onSend: (input: string) => void;
 };
 
+const ENTER_KEY_CODE = 13;
+
 export const MessageInput = (props: MessageInputProps): ReactElement => {
   const { onSend } = props;
   const [message, setMessage] = useState<string>("");
@@ -22,7 +24,7 @@ export const MessageInput = (props: MessageInputProps): ReactElement => {
   const onPressEnter = (event: any) => {
     event.preventDefault();
     if (
-      event.nativeEvent.keyCode === 13 &&
+      event.nativeEvent.keyCode === ENTER_KEY_CODE &&
       !event.nativeEvent.shiftKey &&
       isValidMessage
     ) {

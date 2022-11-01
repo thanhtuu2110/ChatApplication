@@ -112,12 +112,14 @@ const messagesSlice = createSlice({
       state.items = action.payload.items;
     },
     addPreviousMessages(state, action: PayloadAction<Message[]>): void {
-      state.items.push(...action.payload);
+      state.items = action.payload.concat(state.items);
     },
     sendMessage(state, action: PayloadAction<Message>): void {
-      const { content, id, user } = action.payload;
+      const { content, id, user, created_at } = action.payload;
       state.total++;
-      state.items.push({ content, id, user, created_at: "0" });
+      const newItems = state.items.slice(1);
+      newItems.push({ content, id, user, created_at });
+      state.items = newItems;
     },
   },
 });

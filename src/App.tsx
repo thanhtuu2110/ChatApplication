@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import { InfoPage, NavBar } from "./components";
 import { RegisterUserModal } from "./components/common/RegisterUserModal/RegisterUserModal";
-import { HomePage } from "./components/HomePage/Homepage";
+import { ChattingPage } from "./components/ChattingPage/ChattingPage";
 import { User } from "./types/User.interface";
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
           <Redirect to="/home" />
         </Route>
         <Route path="/home">
-          <HomePage currentUser={currentUser} />
+          <ChattingPage currentUser={currentUser} />
         </Route>
         <Route path="/info">
           <InfoPage />

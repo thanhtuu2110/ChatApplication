@@ -20,6 +20,8 @@ export const ChattingRoom = (props: ChattingRoomProps): ReactElement => {
     (state: any) => state.messages
   );
 
+  console.log(messages);
+
   const numberTimeOfSkippedMessage = useRef<number>(1);
   const chattingRoomRef = useRef<HTMLDivElement>(null);
   const oldChattingRoomScrollHeight = useRef<number>(0);
@@ -79,7 +81,7 @@ export const ChattingRoom = (props: ChattingRoomProps): ReactElement => {
         )}
       </div>
 
-      {[...messages].reverse().map((message: Message) => {
+      {[...messages].map((message: Message) => {
         const isMessageFromCurrentUser = message.user.id === currentUser!.id;
         return (
           <BubbleMessage
